@@ -11,7 +11,7 @@ env.config();
 
 app.use(cors({
     origin: [process.env.APP_URL],
-    methods: ["GET","POST"],
+    methods: ["GET","POST","PUT","DELETE","PATCH"],
     credentials: true,
 }));
 
