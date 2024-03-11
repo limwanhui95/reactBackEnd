@@ -27,7 +27,7 @@ async function register(req,res,next) {
                     const result = await dbUtility.insertNewUser(username,hash);
                     const token = createToken(result.rows[0].id);
                     // send cookie
-                    res.cookie("jwt",token,{ withCredentials: true,httpOnly: false,maxAge: maxAge*1000, sameSite:"None", secure:true});
+                    res.cookie("jwt",token,{ withCredentials: true,httpOnly: false,maxAge: maxAge*1000});
                     res.status(201).json({user:result.rows[0].id, loginStatus:true});
                 }
             });
@@ -52,7 +52,7 @@ async function login(req,res,next) {
                 } else if (result) {
                     // send cookie
                     const token = createToken(user.id);
-                    res.cookie("jwt",token,{ withCredentials: true,httpOnly: false,maxAge: maxAge*1000, sameSite:"None", secure:true});
+                    res.cookie("jwt",token,{ withCredentials: true,httpOnly: false,maxAge: maxAge*1000});
                     res.status(200).json({user:user.id, loginStatus:true});
                 } else  {
                     // password do not match
