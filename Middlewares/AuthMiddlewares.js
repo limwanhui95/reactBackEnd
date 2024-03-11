@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import { dbUtility } from "../DatabaseUtilities/pgUtilities.js";
 import env from "dotenv";
 
-env.config();
+// env.config();
 
 function checkUser(req,res,next) {
     const token = req.cookies.jwt;

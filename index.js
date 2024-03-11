@@ -14,6 +14,7 @@ app.use(cors({
     methods: ["GET","POST"],
     credentials: true,
 }));
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
