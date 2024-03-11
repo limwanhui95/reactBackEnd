@@ -14,7 +14,7 @@ function checkUser(req,res,next) {
             } else {
                 // send user information to frontend
                 const user = await dbUtility.checkUserById(decodedToken.id);
-                if(user) res.json({loginStatus:true, user:user.rows[0].username});
+                if(user) res.json({loginStatus:true, user:user.rows[0].username, id:user.rows[0].id});
                 else res.json({loginStatus: false});
                 next();
             }

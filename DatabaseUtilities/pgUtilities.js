@@ -24,8 +24,16 @@ const dbUtility = {
     },
     checkUserById: async function(id) {
         return db.query(`SELECT * FROM users WHERE id = '${id}'`)
+    },
+    insertNewNote: async function(id,title,content) {
+        return db.query(` INSERT INTO usernote (userid,title,content) VALUES (${id},'${title}','${content}') RETURNING *`);
+    },
+    fetchUserNotes: async function(userId) {
+        return db.query(`SELECT * FROM usernote WHERE userid = ${userId} `);
+    },
+    deleteUserNotes: async function(noteId) {
+        return db.query(`DELETE FROM usernote WHERE noteid = ${noteId}`);
     }
-
 }
 
 

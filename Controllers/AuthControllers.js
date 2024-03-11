@@ -1,7 +1,8 @@
 import env from "dotenv";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import {dbUtility} from "../DatabaseUtilities/pgUtilities.js"
+import {dbUtility} from "../DatabaseUtilities/pgUtilities.js";
+
 env.config();
 
 const maxAge = 24*60*60; // one day
@@ -69,7 +70,51 @@ async function login(req,res,next) {
     }
 };
 
+async function addPost(req,res,next) {
+    const {title, content, userid } = req.body;
+    try {
+        const insertResult = await dbUtility.insertNewNote(userid,title,content);
+        console.log(insertResult);
+        res.status(200).json({noteid:insertResult.rows[0].noteid});
+    } catch (err) {
+        console.log(err);
+        res.status(503).json({error:"Error when try to insert new note"});
+    }
+}
+
+async function allNote(req,res,next) {
+    const userId = parseInt(req.query.userId);
+    // console.log(userId);
+    if (userId) {
+        try {
+            const fetchNoteResult = await dbUtility.fetchUserNotes(userId);
+            res.status(200).json(fetchNoteResult.rows);
+        } catch (err) {
+            console.log(err);
+            res.status(503).json({error:"Error when getting user note!"});
+        }
+    }  
+}
+
+async function deleteNote(req,res,next) {
+    const noteId = parseInt(req.params.noteId);
+    console.log(noteId);
+    try {
+        const deleteResult = await dbUtility.deleteUserNotes(noteId);
+        res.status(200).json({result:deleteResult});
+    } catch (err) {
+        res.status(503).json({error:"Error when deleting note!"});
+    }
+}
+
+
 const _register = register;
 export { _register as register };
 const _login = login;
 export { _login as login };
+const _addPost = addPost;
+export {_addPost as addPost};
+const _allNote = allNote;
+export { _allNote as allNote };
+const _deleteNote = deleteNote;
+export { _deleteNote as deleteNote };

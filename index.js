@@ -4,6 +4,7 @@ import env from "dotenv";
 import cors from "cors";
 import router from "./Routes/AuthRoutes.js";
 import cookieParser from "cookie-parser";
+import qs from "qs";
 
 const app = express();
 const port = 4000;
@@ -17,6 +18,9 @@ app.use(cors({
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.set('query parser',function(str){
+    return qs.parse(str);
+  });
 app.use(express.static("public"));
 app.use(cookieParser());
 app.use("/",router);
